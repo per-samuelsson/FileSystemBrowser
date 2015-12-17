@@ -31,7 +31,10 @@ namespace FileSystemBrowser {
             }
 
             Handle.GET("/filesystembrowser", () => {
-                var root = Db.SQL<TreeRoot>("SELECT r FROM TreeRoot r ORDER BY r.Created DESC").First;
+                var root = Db.SQL<TreeSnapshot>("SELECT r FROM TreeSnapshot r ORDER BY r.Created DESC").First;
+                if (root == null) {
+                    return "No snapshots found to browse. Please create at least one";
+                }
 
                 var list = new FileSystemEntryList();
                 list.Entries = Db.SQL<FileSystemEntry>("SELECT e FROM FileSystemEntry e WHERE e.Root = ?", root);

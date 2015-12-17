@@ -19,7 +19,7 @@ namespace FileSystemBrowser {
 
         public void Build() {
             Db.Transact(() => {
-                var root = new TreeRoot() {
+                var root = new TreeSnapshot() {
                     Path = RootPath,
                     Created = Time
                 };
@@ -27,7 +27,7 @@ namespace FileSystemBrowser {
             });
         }
 
-        void BuildTree(TreeRoot root, DirectoryEntry parent, string fromDirectory) {
+        void BuildTree(TreeSnapshot root, DirectoryEntry parent, string fromDirectory) {
             var entry = new DirectoryEntry() {
                 Root = root,
                 ParentEntry = parent,
