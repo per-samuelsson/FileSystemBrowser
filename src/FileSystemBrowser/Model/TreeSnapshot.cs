@@ -13,9 +13,9 @@ namespace FileSystemBrowser.Model {
             }
         }
 
-        public int ItemCount {
+        public long ItemCount {
             get {
-                return Db.SQL<int>("SELECT COUNT(*) FROM FileSystemEntry WHERE Root = ?", this).First;
+                return Db.SlowSQL<long>("SELECT COUNT(*) FROM FileSystemEntry WHERE Root = ?", this).First;
             }
         }
     }
