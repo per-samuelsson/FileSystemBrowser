@@ -1,9 +1,9 @@
 ﻿
-using System;
-using Starcounter;
-using System.IO;
 using FileSystemBrowser.Model;
 using FileSystemBrowser.ViewModels;
+using Starcounter;
+using System;
+using System.IO;
 
 namespace FileSystemBrowser {
 
@@ -19,15 +19,26 @@ namespace FileSystemBrowser {
         }
 
         static void Main(string[] args) {
-            var given = args.Length > 0 ? args[0] : null;
-            var rootDir = given ?? Application.Current.WorkingDirectory;
-            if (!Directory.Exists(rootDir)) {
-                Usage();
-                return;
+            if (args.Length > 0) {
+                var rootDir = Path.GetFullPath(Path.Combine(Application.Current.WorkingDirectory, args[0]));
+                if (!Directory.Exists(rootDir)) {
+                    Usage();
+                    return;
+                }
+
+                Console.WriteLine("Creating new tree from {0}", rootDir);
+                TreeBuilder.From(rootDir).Build();
             }
 
-            Console.WriteLine("Creating new tree from {0}", rootDir);
-            TreeBuilder.From(rootDir).Build();
+            Handle.GET("/filesystembrowser", () => {
+                var root = Db.SQL<TreeRoot>("SELECT r FROM TreeRoot r ORDER BY r.Created DESC").First;
+
+                var list = new FileSystemEntryList();
+                list.Entries = Db.SQL<FileSystemEntry>("SELECT e FROM FileSystemEntry e WHERE e.Root = ?", root);
+                list.Html = "/FileSystemBrowser/FileSystemEntryList.html";
+
+                return list;
+            });
 
             Handle.GET("/filesystembrowser/entries/{?}", (string id) => {
                 var oid = DbHelper.Base64DecodeObjectID(id);
@@ -36,17 +47,8 @@ namespace FileSystemBrowser {
                 var display = new FileSystemEntryDisplay();
                 display.Data = entry;
                 display.Html = "/FileSystemBrowser/FileSystemEntryDisplay.html";
+
                 return display;
-            });
-
-            Handle.GET("/filesystembrowser", () => {
-                var root = Db.SQL<TreeRoot>("SELECT r FROM TreeRoot r ORDER BY r.Created DESC").First;
-                
-                var list = new FileSystemEntryList();
-                list.Entries = Db.SQL<FileSystemEntry>("SELECT e FROM FileSystemEntry e WHERE e.Root = ?", root);
-                list.Html = "/FileSystemBrowser/FileSystemEntryList.html";
-
-                return list;
             });
         }
     }
