@@ -1,11 +1,12 @@
 ﻿<template>
     <template is="dom-bind">
-        <div class="form-horizontal box-label">
-            <label class="control-label">Name</label>
-        </div>
-        <div class="box-control">
-            <input type="text" value="{{model.Name}}" class="form-control" />
-        </div>
+        <template is="dom-if" if="{{!model.IsDirectory}}">
+            <p class="lead"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;<b>{{model.Name}}</b></p>
+        </template>
+        <template is="dom-if" if="{{model.IsDirectory}}">
+            <p class="lead"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;<b>{{model.Name}}</b></p>
+        </template>
+       
         <div class="form-horizontal box-label">
             <label class="control-label">Path</label>
         </div>
@@ -16,7 +17,13 @@
             <label class="control-label">Parent</label>
         </div>
         <div class="box-control">
-            <input type="text" class="form-control" value="{{model.ParentEntry.Name}}" />
+            <a href="{{model.ParentEntry.Uri}}">{{model.ParentEntry.Name}}</a>
+        </div>
+        <div class="form-horizontal box-label">
+            <label class="control-label">Snapshot</label>
+        </div>
+        <div class="box-control">
+            <a href="{{model.SnapshotUri}}">View snapshot</a>
         </div>
         <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
     </template>

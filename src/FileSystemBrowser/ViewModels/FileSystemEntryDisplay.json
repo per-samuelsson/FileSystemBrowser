@@ -1,16 +1,26 @@
 {
   "Html": "/FileSystemBrowser/FileSystemEntryDisplay.html",
+
   "Uri": "",
   "$Uri": { "Bind": "UriBinding" },
   "Name": "",
   "Path": "",
-  "Icon": "",
-  
+  "IsDirectory": true,
+
   "ParentEntry": {
     "Html": "/FileSystemBrowser/FileSystemEntryDisplay.html",
     "Uri": "",
     "$Uri": { "Bind": "UriBinding" },
     "Name": "",
     "Path": ""
-  }
+  },
+
+  "$Snapshot": { "Bind": "Root" },
+
+  "Snapshot": {
+    "Created": "",
+    "Path": ""
+  },
+
+  "SnapshotUri": "/filesystembrowser/snapshots/123"
 }
