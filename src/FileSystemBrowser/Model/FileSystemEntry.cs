@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Starcounter;
 
 namespace FileSystemBrowser.Model {
@@ -11,5 +7,11 @@ namespace FileSystemBrowser.Model {
         public TreeRoot Root;
         public FileSystemEntry ParentEntry;
         public string Path;
+
+        public string Name {
+            get {
+                return System.IO.Path.GetFileName(Path);
+            }
+        }
     }
 }
