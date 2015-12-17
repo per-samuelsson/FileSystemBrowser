@@ -6,12 +6,7 @@ using System;
 using System.IO;
 
 namespace FileSystemBrowser {
-
-    // Example query to use in web admin to see the tree snapshot based on a
-    // given root directory:
-    //
-    // SELECT * FROM FileSystemBrowser.Model.FileSystemEntry fse WHERE fse.Root.Path = 'C:\Users\Per\Git\per-samuelsson\FileSystemBrowser\src\FileSystemBrowser'
-
+    
     class Program {
 
         static void Usage() {
@@ -31,13 +26,28 @@ namespace FileSystemBrowser {
             }
 
             Handle.GET("/filesystembrowser", () => {
+                return Self.GET("/filesystembrowser/latest");
+            });
+
+            Handle.GET("/filesystembrowser/latest", () => {
                 var root = Db.SQL<TreeSnapshot>("SELECT r FROM TreeSnapshot r ORDER BY r.Created DESC").First;
                 if (root == null) {
                     return "No snapshots found to browse. Please create at least one";
                 }
 
+                return Self.GET(string.Format("/filesystembrowser/snapshots/{0}", root.GetObjectID()));
+            });
+
+            Handle.GET("/filesystembrowser/snapshots/{?}", (string id) => {
+                var oid = DbHelper.Base64DecodeObjectID(id);
+                var snapshot = DbHelper.FromID(oid) as TreeSnapshot;
+
+                if (snapshot == null) {
+                    return 404;
+                }
+
                 var list = new FileSystemEntryList();
-                list.Entries = Db.SQL<FileSystemEntry>("SELECT e FROM FileSystemEntry e WHERE e.Root = ?", root);
+                list.Entries = snapshot.Items;
                 list.Html = "/FileSystemBrowser/FileSystemEntryList.html";
 
                 return list;
