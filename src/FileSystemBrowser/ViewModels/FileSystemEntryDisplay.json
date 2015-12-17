@@ -1,0 +1,16 @@
+{
+  "Html": "/FileSystemBrowser/FileSystemEntryDisplay.html",
+  "Uri": "",
+  "$Uri": { "Bind": "UriBinding" },
+  "Name": "",
+  "Path": "",
+  "Icon": "",
+  
+  "ParentEntry": {
+    "Html": "/FileSystemBrowser/FileSystemEntryDisplay.html",
+    "Uri": "",
+    "$Uri": { "Bind": "UriBinding" },
+    "Name": "",
+    "Path": ""
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "Html": "",
+
+  "Entries": [
+    {
+      "$": { "Reuse": "FileSystemBrowser.ViewModels.FileSystemEntryDisplay" }
+    }
+  ]
+}

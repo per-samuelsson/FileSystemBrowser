@@ -1,0 +1,23 @@
+﻿<template>
+    <template is="dom-bind">
+        <div class="form-horizontal box-label">
+            <label class="control-label">Name</label>
+        </div>
+        <div class="box-control">
+            <input type="text" value="{{model.Name}}" class="form-control" />
+        </div>
+        <div class="form-horizontal box-label">
+            <label class="control-label">Path</label>
+        </div>
+        <div class="box-control">
+            <input type="text" class="form-control" value="{{model.Path}}" />
+        </div>
+        <div class="form-horizontal box-label">
+            <label class="control-label">Parent</label>
+        </div>
+        <div class="box-control">
+            <input type="text" class="form-control" value="{{model.ParentEntry.Name}}" />
+        </div>
+        <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
+    </template>
+</template>

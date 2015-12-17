@@ -1,0 +1,22 @@
+﻿<template>
+    <template is="dom-bind">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Path</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{model.Entries}}">
+                    <tr>
+                        <td><a href="{{item.Uri}}">{{item.Name}}</a></td>
+                        <td>{{item.Path}}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+
+        <dom-bind-notifier path="model" observed-object="{{model}}" deep></dom-bind-notifier>
+    </template>
+</template>
